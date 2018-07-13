@@ -4,6 +4,7 @@ using Microsoft.ML.Trainers;
 using Microsoft.ML.Transforms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace mlForm
@@ -12,41 +13,7 @@ namespace mlForm
     {
         private static ILearningPipelineItem algorithm;
         List<string> _items = new List<string>();
-
-        public Form1()
-        {
-            InitializeComponent();
-
-            _items.Add("StochasticDualCoordinateAscentClassifier");
-            _items.Add("NaiveBayesClassifier");
-            _items.Add("FastForestBinaryClassifier ");
-
-            listBox1.DataSource = _items;
-        }
-
         OpenFileDialog ofd = new OpenFileDialog();
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                textBox1.Text = ofd.SafeFileName;
-            }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                textBox2.Text = ofd.SafeFileName;
-            }
-        }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -56,6 +23,45 @@ namespace mlForm
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            _items.Add("StochasticDualCoordinateAscentClassifier");
+            _items.Add("NaiveBayesClassifier");
+            _items.Add("FastForestBinaryClassifier ");
+                
+            listBox1.DataSource = _items;
+
+            textBox3.ScrollBars = ScrollBars.Both;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                textBox1.Text = ofd.SafeFileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                textBox2.Text = ofd.SafeFileName;
+            }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -70,10 +76,6 @@ namespace mlForm
             {
                 MessageBox.Show("Text field cannot be empty!");
             }
-        }
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
         }
         public PredictionModel<IrisData, IrisPrediction> Train()
         {
@@ -101,6 +103,29 @@ namespace mlForm
             };
             PredictionModel<IrisData, IrisPrediction> model = pipeline.Train<IrisData, IrisPrediction>();
             return model;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if(textBox1.Text != ""){
+                textBox3.Text = File.ReadAllText(textBox1.Text);
+            }
+            else
+            {
+                MessageBox.Show("Text field cannot be empty!");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (textBox2.Text != "")
+            {
+                textBox3.Text = File.ReadAllText(textBox2.Text);
+            }
+            else
+            {
+                MessageBox.Show("Text field cannot be empty!");
+            }
         }
     }
 }
