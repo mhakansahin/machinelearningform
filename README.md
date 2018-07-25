@@ -13,6 +13,4 @@ Eklediğim yeni kodlar ile data içerisinde bulunan başlıklar koda dinamik ola
 
 ### Ekran Görüntüleri
 ------------------------------------------------------------------------------------------------------------------------------------------
-![2](https://user-images.githubusercontent.com/22412024/42676457-f17c7a08-8680-11e8-9b0e-b67a7761ed01.PNG)
-![3](https://user-images.githubusercontent.com/22412024/42676515-28d396d0-8681-11e8-851f-7d88c852409b.PNG)
-
+![animated gif-source](https://user-images.githubusercontent.com/22412024/43205417-fb4c8ae6-902b-11e8-8729-37a156de3d66.gif)
