@@ -5,6 +5,7 @@ using Microsoft.ML.Transforms;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace mlForm
@@ -55,7 +56,7 @@ namespace mlForm
                 textBox1.Text = ofd.SafeFileName;
             }
         }
-
+            
         private void button2_Click(object sender, EventArgs e)
         {
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -68,6 +69,7 @@ namespace mlForm
         {
             if (textBox1.Text != "")
             {
+                //csProjectData();
                 PredictionModel<IrisData, IrisPrediction> model = Train();
                 var prediction = model.Predict(TestData.prediction);
                 textBox3.Text = $"Predicted flower type is: {prediction.PredictedLabels}";
@@ -94,10 +96,13 @@ namespace mlForm
                     break;
             }
 
+            GetColumns gc = new GetColumns();
+            var iris = gc.getColumns();
+
             var pipeline = new LearningPipeline {
-                new TextLoader(datapath).CreateFrom<IrisData>(separator: ','),
+                new TextLoader(datapath).CreateFrom<IrisData>(useHeader: true, separator: ','),
                 new Dictionarizer("Label"),
-                new ColumnConcatenator("Features", "SepalLength", "SepalWidth", "PetalLength", "PetalWidth"),
+                new ColumnConcatenator("Features", iris),
                 algorithm,
                 new PredictedLabelColumnOriginalValueConverter() { PredictedLabelColumn = "PredictedLabel" }
             };
@@ -125,6 +130,35 @@ namespace mlForm
             else
             {
                 MessageBox.Show("Text field cannot be empty!");
+            }
+        }
+
+        private void csProjectData()
+        {
+            GetColumns gc = new GetColumns();
+            var data = gc.getColumns().ToArray();
+
+            using (var file = new StreamWriter(@"code.cs", true))
+            {
+                file.WriteLine("using Microsoft.ML.Runtime.Api;");
+                file.WriteLine();
+                file.WriteLine("namespace ncML");
+                file.WriteLine("{");
+                file.WriteLine("public class ProjectData");
+                file.WriteLine("{");
+                for (int i = 0; i < data.Length; i++)
+                {
+                    file.WriteLine("[Column(\"" + i + "\")]");
+                    file.WriteLine("public float " + data[i] + ";");
+                    file.WriteLine();
+                }
+                file.WriteLine("}");
+                file.WriteLine("public class ProjectPrediction");
+                file.WriteLine("{");
+                file.WriteLine("[ColumnName(\"PredictedLabel\")]");
+                file.WriteLine("public string PredictedTypes;");
+                file.WriteLine("}");
+                file.WriteLine("}");
             }
         }
     }
