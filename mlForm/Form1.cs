@@ -69,10 +69,10 @@ namespace mlForm
         {
             if (textBox1.Text != "")
             {
-                //csProjectData();
-                PredictionModel<IrisData, IrisPrediction> model = Train();
-                var prediction = model.Predict(TestData.prediction);
-                textBox3.Text = $"Predicted flower type is: {prediction.PredictedLabels}";
+                csProjectData();
+                //PredictionModel<IrisData, IrisPrediction> model = Train();
+                //var prediction = model.Predict(TestData.prediction);
+                //textBox3.Text = $"Predicted flower type is: {prediction.PredictedLabels}";
             }
             else
             {
@@ -135,8 +135,10 @@ namespace mlForm
 
         private void csProjectData()
         {
-            GetColumns gc = new GetColumns();
-            var data = gc.getColumns().ToArray();
+            FileStream fs = new FileStream(@"iris-data.txt", FileMode.Open, FileAccess.Read);
+            StreamReader sw = new StreamReader(fs);
+            string line1 = sw.ReadLine();
+            string[] allLines = line1.Split(',');
 
             using (var file = new StreamWriter(@"code.cs", true))
             {
@@ -146,10 +148,10 @@ namespace mlForm
                 file.WriteLine("{");
                 file.WriteLine("public class ProjectData");
                 file.WriteLine("{");
-                for (int i = 0; i < data.Length; i++)
+                for (int i = 0; i < allLines.Length; i++)
                 {
                     file.WriteLine("[Column(\"" + i + "\")]");
-                    file.WriteLine("public float " + data[i] + ";");
+                    file.WriteLine("public float " + allLines[i] + ";");
                     file.WriteLine();
                 }
                 file.WriteLine("}");
