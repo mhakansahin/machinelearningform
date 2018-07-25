@@ -5,7 +5,7 @@ Projede basit bir form yapısı ile makine öğrenmesi gerçekleştirilmiştir. 
 ## İlerleyen zamanlarda projeye eklenecekler
 
 - [ ] Ekstra parametre ve metot isteyen algoritmalar için dinamik yapı.
-- [ ] Eklediğimiz dosyalar içinden başlıkları dinamik olarak alacak kodların eklenmesi.
+- [x] Eklediğimiz dosyalar içinden başlıkları dinamik olarak alacak kodların eklenmesi.
 
 ### Ekran Görüntüleri
 ------------------------------------------------------------------------------------------------------------------------------------------
